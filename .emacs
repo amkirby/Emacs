@@ -135,9 +135,12 @@
   (insert (concat "\\title{" title "}\n"))
   (insert (concat "\\author{" author "}\n"))
   (insert "\\date{\\today}")
+  (insert "\n\n")
+  (latex_tags "document")
+  (insert "\\maketitle\n")
 )
 (global-set-key (kbd "C-x C-l") 'LaTeX_header)
-(lookup-key (current-global-map) (kbd "C-c C-l"))
+(lookup-key (current-global-map) (kbd "C-x C-l"))
 
 ;PRE:  .bash_aliases file is open.
 ;POST: Sets the major mode for .bash_aliases file to be sh-mode
@@ -146,12 +149,12 @@
 ;; Can be uncommented if <C - c> <C - t> does not do this already
 ;PRE:  
 ;POST: Creates the begin and end LaTeX tags for the user defined tag.
-;; (defun latex_tags (tag)
-;;   (interactive "MTag to create: ")
-;;   (insert (concat "\\begin{" tag "}\n\n")) (indent-for-tab-command)
-;;   (insert (concat "\\end{" tag "}")) (indent-for-tab-command)
-;;   (previous-line) (indent-for-tab-command)
-;; )
+(defun latex_tags (tag)
+  (interactive "MTag to create: ")
+  (insert (concat "\\begin{" tag "}\n\n")) (indent-for-tab-command)
+  (insert (concat "\\end{" tag "}")) (indent-for-tab-command)
+  (previous-line) (indent-for-tab-command)
+)
 ;; ;; binds Control-c Control-t to the latex_tags function
 ;; (global-set-key (kbd "C-c C-t") 'latex_tags)
 ;; (lookup-key (current-global-map) (kbd "C-c C-t"))
