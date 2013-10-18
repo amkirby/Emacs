@@ -8,6 +8,8 @@
  '(font-use-system-font t)
  '(inhibit-startup-screen t))
 
+;; Leaving this comment so that users can know how to use the .emacs.d
+;; directory.
 ;;(add-to-list 'load-path "~/.emacs.d")
 
 ;; turns on auto-fill when ctrl-c q is pressed
@@ -31,10 +33,6 @@
 ;; set meta-arrows to move between buffers
 (require 'windmove)
 (windmove-default-keybindings 'meta)
-;; (global-set-key (kbd "C-h") 'windmove-left)
-;; (global-set-key (kbd "C-j") 'windmove-down)
-;; (global-set-key (kbd "C-k") 'windmove-up)
-;; (global-set-key (kbd "C-l") 'windmove-right)
 (defvar real-keyboard-keys
   '(("<M-up>"    ."\M-[1;3A")
     ("<M-down>"  ."\M-[1;3B")
@@ -53,14 +51,8 @@
 (global-set-key (key "<M-down>") 'windmove-down)
 
 ;; add fill column indicator
-;;(add-to-list 'load-path "~/.emacs.d")
 (require 'fill-column-indicator)
 (add-hook 'after-change-major-mode-hook 'fci-mode)
-
-;; smartparens auto-pairs. has keybindings for M-arrows
-;;(add-to-list 'load-path "~/.emacs.d")
-;;(require 'smartparens)
-;;(smartparens-global-mode 1)
 
 ;;Set TODO to be yellow in C-like programming languages
 (add-hook 'c-mode-common-hook
@@ -70,7 +62,7 @@
 				       '(:background "yellow"
 					 :foreground "black") t)))))
 
-;;set default cursor color
+;; Settings for the Emacs GUI
 (when window-system
   (set-cursor-color "green")
   (set-background-color "gray13")
@@ -86,7 +78,7 @@
 
 ;;(global-set-key (kbd "C-x C-b") 'buffer-menu)
 
-;; set default major mode to text mode
+;; set default major mode to text mode instead of Fundamental
 (setq-default major-mode 'text-mode)
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
@@ -134,10 +126,6 @@
 (global-set-key (kbd "C-x c") 'compile)
 (lookup-key (current-global-map) (kbd "C-x c")) ;;create compile shorcut
 
-;Pre:  
-;Post: auto-fill is on, column number is shown on info bar
-;;(setq-default auto-fill-function 'do-auto-fill) ;;start in auto fill
-
 ;PRE:  
 ;POST: Asks for the title of the document and the author of the
 ;      document and creates the header for the document
@@ -155,7 +143,7 @@
 ;POST: Sets the major mode for .bash_aliases file to be sh-mode
 (add-to-list 'auto-mode-alist '("\\.bash_aliases\\'" . sh-mode))
 
-
+;; Can be uncommented if <C - c> <C - t> does not do this already
 ;PRE:  
 ;POST: Creates the begin and end LaTeX tags for the user defined tag.
 ;; (defun latex_tags (tag)
