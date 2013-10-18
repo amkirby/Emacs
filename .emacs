@@ -54,8 +54,9 @@
 (require 'fill-column-indicator)
 (add-hook 'after-change-major-mode-hook 'fci-mode)
 
-;;Set TODO to be yellow in C-like programming languages
-(add-hook 'c-mode-common-hook
+;; Set TODO to be yellow in programming languages
+;; Only works for emacs 24
+(add-hook 'prog-mode-hook
 	  (lambda ()
 	    (font-lock-add-keywords nil
 				    '(("\\<\\(TODO\\):" 1 
