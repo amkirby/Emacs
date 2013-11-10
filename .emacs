@@ -82,6 +82,7 @@
 ;; set default major mode to text mode instead of Fundamental
 (setq-default major-mode 'text-mode)
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
+(add-hook 'text-mode-hook 'flyspell-mode)
 
 ;;;;Begin Stuff for Comments;;;;
 
@@ -124,8 +125,8 @@
  
 ;Pre:  Control-x c
 ;Post: Compile shortcut produced
-(global-set-key (kbd "C-x c") 'compile)
-(lookup-key (current-global-map) (kbd "C-x c")) ;;create compile shorcut
+(global-set-key (kbd "C-c x") 'compile)
+(lookup-key (current-global-map) (kbd "C-c x")) ;;create compile shorcut
 
 ;PRE:  
 ;POST: Asks for the title of the document and the author of the
@@ -156,6 +157,34 @@
   (insert (concat "\\end{" tag "}")) (indent-for-tab-command)
   (previous-line) (indent-for-tab-command)
 )
+
+;Pre:  C-c e
+;Post: A cerr statement is placed, cursor moved to middle
+(defun insert_cerr_line()
+  (interactive)
+  (indent-for-tab-command)
+  (insert "cerr << \"")(insert (buffer-name) " ")
+  (insert (what-line))(insert ": \" << endl;")
+  (backward-char)(backward-char)(backward-char)(backward-char)(backward-char)
+  (backward-char)(backward-char)(backward-char)(backward-char)(backward-char))
+(global-set-key (kbd "C-c e") 'insert_cerr_line)
+(lookup-key (current-global-map) (kbd "C-c e"))
+
+;;;;End Stuff for Comments;;;;
+
+;Pre:  C-c f
+;Post: A flower box is inserted and the cursor is placed in the middle
+(defun flower_box()
+  (interactive)
+  (indent-for-tab-command)
+  (insert comment-start "========================================\n" comment-end)
+  (indent-for-tab-command) (insert comment-start "               \n" comment-end)
+  (indent-for-tab-command)
+  (insert comment-start "========================================\n" comment-end)
+  (previous-line) (previous-line) (move-end-of-line 1))
+(global-set-key (kbd "C-c f") 'flower_box)
+(lookup-key (current-global-map) (kbd "C-c f"))
+
 ;; ;; binds Control-c Control-t to the latex_tags function
 ;; (global-set-key (kbd "C-c C-t") 'latex_tags)
 ;; (lookup-key (current-global-map) (kbd "C-c C-t"))
