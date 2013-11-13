@@ -185,6 +185,9 @@
 (global-set-key (kbd "C-c f") 'flower_box)
 (lookup-key (current-global-map) (kbd "C-c f"))
 
+(setq auto-mode-alist ;;make .h files defalut to c++ mode
+      (cons '("\\.h\\'" . c++-mode) auto-mode-alist)) 
+
 ;; ;; binds Control-c Control-t to the latex_tags function
 ;; (global-set-key (kbd "C-c C-t") 'latex_tags)
 ;; (lookup-key (current-global-map) (kbd "C-c C-t"))
