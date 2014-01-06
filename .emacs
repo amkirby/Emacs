@@ -190,18 +190,52 @@
 
 ;;;;End Stuff for Comments;;;;
 
+;; set F7 to open a shell
+(global-set-key [f7] 'shell)
+
+;Pre:  count is an integer > 0, character is some string
+;Post: 
+(defun insert-string (count string)
+  (setq i 0)
+  (while (< i count)
+    (insert string)
+    (setq i (+ 1 i))
+    )
+  )
+
 ;Pre:  C-c f
 ;Post: A flower box is inserted and the cursor is placed in the middle
 (defun flower_box()
+  (setq title  (read-from-minibuffer "Title of pretty flowerbox? "))
   (interactive)
-  (indent-for-tab-command)
-  (insert comment-start "========================================\n" comment-end)
-  (indent-for-tab-command) (insert comment-start "               \n" comment-end)
-  (indent-for-tab-command)
-  (insert comment-start "========================================\n" comment-end)
-  (previous-line) (previous-line) (move-end-of-line 1))
+
+  (indent-for-tab-command) (insert comment-start)
+  (insert-string (+ (length title) 10) "=")
+  (insert "\n" comment-end)
+
+  (indent-for-tab-command) (insert comment-start)
+  (insert-string 5 " ") (insert title) (insert-string 5 " ")  
+  (insert comment-end "\n")
+
+  (indent-for-tab-command) (insert comment-start)
+  (insert-string (+ (length title) 10) "=")
+  (insert "\n" comment-end))
+
 (global-set-key (kbd "C-c f") 'flower_box)
 (lookup-key (current-global-map) (kbd "C-c f"))
+
+;Pre:  C-c f
+;Post: A flower box is inserted and the cursor is placed in the middle
+;; (defun flower_box()
+;;   (interactive)
+;;   (indent-for-tab-command)
+;;   (insert comment-start "========================================\n" comment-end)
+;;   (indent-for-tab-command) (insert comment-start "               \n" comment-end)
+;;   (indent-for-tab-command)
+;;   (insert comment-start "========================================\n" comment-end)
+;;   (previous-line) (previous-line) (move-end-of-line 1))
+;; (global-set-key (kbd "C-c f") 'flower_box)
+;; (lookup-key (current-global-map) (kbd "C-c f"))
 
 (setq auto-mode-alist ;;make .h files defalut to c++ mode
       (cons '("\\.h\\'" . c++-mode) auto-mode-alist)) 
