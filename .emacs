@@ -12,14 +12,64 @@
 ;; directory.
 ;;(add-to-list 'load-path "~/.emacs.d")
 
-;; turns on auto-fill when ctrl-c q is pressed
+;===========================
+;     MISC KEY BINDINGS     
+;===========================
+
 (global-set-key (kbd "C-c q") 'auto-fill-mode)
+(global-set-key (kbd "C-c C-r") 'align-regexp)
+(global-set-key (kbd "C-c C-g") 'goto-line)
+(global-set-key [f7] 'shell)
+(global-set-key (kbd "C-c x") 'compile)
+;(lookup-key (current-global-map) (kbd "C-c x")) ;;create compile shorcut
 
-;; shows column number on bottom
+;=====================
+;     MISC CONFIG     
+;=====================
+
 (column-number-mode 1)
-
-; highlights opening and closing braces
 (show-paren-mode 1)
+(blink-cursor-mode 0)
+(scroll-bar-mode 0)
+(tool-bar-mode 0)
+(menu-bar-mode 0)
+;; Settings for the Emacs GUI
+(when window-system
+  (set-cursor-color "green")
+  (set-background-color "gray13")
+  (set-foreground-color "white")
+)
+;; set default major mode to text mode instead of Fundamental
+(setq-default major-mode 'text-mode)
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
+;; (add-hook 'text-mode-hook 'flyspell-mode)
+(setq auto-mode-alist ;;make .h files defalut to c++ mode
+      (cons '("\\.h\\'" . c++-mode) auto-mode-alist)) 
+
+;========================
+;     SPECIFIC MODES     
+;========================
+
+;; org mode
+(add-hook 'org-mode-hook
+	  (lambda() (local-set-key (kbd "C-c a") 'org-agenda)))
+
+;; octave mode
+(autoload 'octave-mode "octave-mod" nil t)
+(setq auto-mode-alist
+      (cons '("\\.m$" . octave-mode) auto-mode-alist))
+
+(add-hook 'octave-mode-hook
+          (lambda ()
+            (abbrev-mode 1)
+            (auto-fill-mode 1)
+            (if (eq window-system 'x)
+                (font-lock-mode 1))))
+
+;; lua mode
+(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
+    (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
+    (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 
 ;; php-mode
 ;; syntax highlighting for php code
@@ -29,6 +79,38 @@
   (append '(("\.php$" . php-mode)
             ("\.module$" . php-mode))
               auto-mode-alist))
+
+;; Set TODO to be yellow in programming languages
+
+;; highlight todo for c like programming languages
+;; for emacs 23
+(add-hook 'c-mode-common-hook
+	  (lambda ()
+	    (font-lock-add-keywords nil
+				    '(("\\<\\(TODO\\):" 1 
+				       '(:background "yellow"
+					 :foreground "black") t)))))
+
+;; highlight todo for python programming language
+;; for emacs 23
+(add-hook 'python-mode-hook
+	  (lambda ()
+	    (font-lock-add-keywords nil
+				    '(("\\<\\(TODO\\):" 1 
+				       '(:background "yellow"
+					 :foreground "black") t)))))
+
+;; Only works for emacs 24
+;; (add-hook 'prog-mode-hook
+;; 	  (lambda ()
+;; 	    (font-lock-add-keywords nil
+;; 				    '(("\\<\\(TODO\\):" 1 
+;; 				       '(:background "yellow"
+;; 					 :foreground "black") t)))))
+
+;=========================
+;     WINDOW MOVEMENT     
+;=========================
 
 ;; set meta-arrows to move between buffers
 (require 'windmove)
@@ -51,58 +133,21 @@
 (global-set-key (key "<M-down>") 'windmove-down)
 
 ;; add fill column indicator
-(require 'fill-column-indicator)
-(add-hook 'after-change-major-mode-hook 'fci-mode)
+;; (require 'fill-column-indicator)
+;; (add-hook 'after-change-major-mode-hook 'fci-mode)
 
-;; Set TODO to be yellow in programming languages
-;; Only works for emacs 24
-;; (add-hook 'prog-mode-hook
-;; 	  (lambda ()
-;; 	    (font-lock-add-keywords nil
-;; 				    '(("\\<\\(TODO\\):" 1 
-;; 				       '(:background "yellow"
-;; 					 :foreground "black") t)))))
 
-;; highlight todo for c like programming languages
-;; for emacs 23
-(add-hook 'c-mode-common-hook
-	  (lambda ()
-	    (font-lock-add-keywords nil
-				    '(("\\<\\(TODO\\):" 1 
-				       '(:background "yellow"
-					 :foreground "black") t)))))
 
-;; highlight todo for python programming language
-;; for emacs 23
-(add-hook 'python-mode-hook
-	  (lambda ()
-	    (font-lock-add-keywords nil
-				    '(("\\<\\(TODO\\):" 1 
-				       '(:background "yellow"
-					 :foreground "black") t)))))
 
-;; Settings for the Emacs GUI
-(when window-system
-  (set-cursor-color "green")
-  (set-background-color "gray13")
-  (set-foreground-color "white")
-)
+;===================
+;     FUNCTIONS     
+;===================
 
 ;; insert (comment-start) ASSERT: 
 (defun insert_assert()
   (interactive)
   (insert comment-start "ASSERT: ") (indent-for-tab-command)
 )
-(global-set-key (kbd "C-c a") 'insert_assert)
-
-;;(global-set-key (kbd "C-x C-b") 'buffer-menu)
-
-;; set default major mode to text mode instead of Fundamental
-(setq-default major-mode 'text-mode)
-(add-hook 'text-mode-hook 'turn-on-auto-fill)
-(add-hook 'text-mode-hook 'flyspell-mode)
-
-;;;;Begin Stuff for Comments;;;;
 
 ;Pre:  C-c n 
 ;Post: Pre and Post sections are placed and commented out, cursor is
@@ -113,8 +158,6 @@
   (insert "\n" comment-start "POST: " comment-end) (indent-for-tab-command)
   (previous-line) (move-end-of-line 1) ;;the '1' is for current line
   (message "If you want different comment characters, use C-c c\nmanually set goal column for comments by moving to the desired column and typing  C-x ;")) 
-(global-set-key (kbd "C-c n") 'pre_post)
-(lookup-key (current-global-map) (kbd "C-c n"))
 
 ;Pre:  C-c c
 ;      The new comment-start & comment-end characters are given by the
@@ -126,8 +169,6 @@
   (setq comment-start  (read-from-minibuffer "New comment-start character? "))
   (setq comment-end  (read-from-minibuffer "New comment-end character? "))
   (message "Comment characters set for current buffer"))
-(global-set-key (kbd "C-c c") 'set_comment_characters)
-(lookup-key (current-global-map) (kbd "C-c c"))
 
 ;;;;End Stuff for Comments;;;;
 
@@ -138,13 +179,7 @@
   (interactive)
   (insert "{\n\n}") (indent-for-tab-command) 
   (previous-line)  (indent-for-tab-command))
-(global-set-key (kbd "M-{") 'open_close_curly)
-(lookup-key (current-global-map) (kbd "M-{"))
  
-;Pre:  Control-x c
-;Post: Compile shortcut produced
-(global-set-key (kbd "C-c x") 'compile)
-(lookup-key (current-global-map) (kbd "C-c x")) ;;create compile shorcut
 
 ;PRE:  
 ;POST: Asks for the title of the document and the author of the
@@ -159,8 +194,6 @@
   (latex_tags "document")
   (insert "\\maketitle\n")
 )
-(global-set-key (kbd "C-x C-l") 'LaTeX_header)
-(lookup-key (current-global-map) (kbd "C-x C-l"))
 
 ;PRE:  .bash_aliases file is open.
 ;POST: Sets the major mode for .bash_aliases file to be sh-mode
@@ -185,13 +218,7 @@
   (insert (what-line))(insert ": \" << endl;")
   (backward-char)(backward-char)(backward-char)(backward-char)(backward-char)
   (backward-char)(backward-char)(backward-char)(backward-char)(backward-char))
-(global-set-key (kbd "C-c e") 'insert_cerr_line)
-(lookup-key (current-global-map) (kbd "C-c e"))
 
-;;;;End Stuff for Comments;;;;
-
-;; set F7 to open a shell
-(global-set-key [f7] 'shell)
 
 ;Pre:  count is an integer > 0, character is some string
 ;Post: 
@@ -221,30 +248,26 @@
   (insert-string (+ (length title) 10) "=")
   (insert "\n" comment-end))
 
+
+;===============================
+;     FUNCTION KEY BINDINGS     
+;===============================
+(global-set-key (kbd "C-c a") 'insert_assert)
+(global-set-key (kbd "C-c n") 'pre_post)
+(lookup-key (current-global-map) (kbd "C-c n"))
+(global-set-key (kbd "C-c c") 'set_comment_characters)
+(lookup-key (current-global-map) (kbd "C-c c"))
+(global-set-key (kbd "M-{") 'open_close_curly)
+(lookup-key (current-global-map) (kbd "M-{"))
+(global-set-key (kbd "C-x C-l") 'LaTeX_header)
+(lookup-key (current-global-map) (kbd "C-x C-l"))
+(global-set-key (kbd "C-c e") 'insert_cerr_line)
+(lookup-key (current-global-map) (kbd "C-c e"))
 (global-set-key (kbd "C-c f") 'flower_box)
 (lookup-key (current-global-map) (kbd "C-c f"))
 
-;Pre:  C-c f
-;Post: A flower box is inserted and the cursor is placed in the middle
-;; (defun flower_box()
-;;   (interactive)
-;;   (indent-for-tab-command)
-;;   (insert comment-start "========================================\n" comment-end)
-;;   (indent-for-tab-command) (insert comment-start "               \n" comment-end)
-;;   (indent-for-tab-command)
-;;   (insert comment-start "========================================\n" comment-end)
-;;   (previous-line) (previous-line) (move-end-of-line 1))
-;; (global-set-key (kbd "C-c f") 'flower_box)
-;; (lookup-key (current-global-map) (kbd "C-c f"))
 
-(setq auto-mode-alist ;;make .h files defalut to c++ mode
-      (cons '("\\.h\\'" . c++-mode) auto-mode-alist)) 
-
-;; ;; binds Control-c Control-t to the latex_tags function
-;; (global-set-key (kbd "C-c C-t") 'latex_tags)
-;; (lookup-key (current-global-map) (kbd "C-c C-t"))
-
-;;set theme to be 
+;;Set theme to be 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
