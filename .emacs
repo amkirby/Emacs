@@ -84,29 +84,29 @@
 
 ;; highlight todo for c like programming languages
 ;; for emacs 23
-(add-hook 'c-mode-common-hook
-	  (lambda ()
-	    (font-lock-add-keywords nil
-				    '(("\\<\\(TODO\\):" 1 
-				       '(:background "yellow"
-					 :foreground "black") t)))))
-
-;; highlight todo for python programming language
-;; for emacs 23
-(add-hook 'python-mode-hook
-	  (lambda ()
-	    (font-lock-add-keywords nil
-				    '(("\\<\\(TODO\\):" 1 
-				       '(:background "yellow"
-					 :foreground "black") t)))))
-
-;; Only works for emacs 24
-;; (add-hook 'prog-mode-hook
+;; (add-hook 'c-mode-common-hook
 ;; 	  (lambda ()
 ;; 	    (font-lock-add-keywords nil
 ;; 				    '(("\\<\\(TODO\\):" 1 
 ;; 				       '(:background "yellow"
 ;; 					 :foreground "black") t)))))
+
+;; highlight todo for python programming language
+;; for emacs 23
+;; (add-hook 'python-mode-hook
+;; 	  (lambda ()
+;; 	    (font-lock-add-keywords nil
+;; 				    '(("\\<\\(TODO\\):" 1 
+;; 				       '(:background "yellow"
+;; 					 :foreground "black") t)))))
+
+;; Only works for emacs 24
+(add-hook 'prog-mode-hook
+	  (lambda ()
+	    (font-lock-add-keywords nil
+				    '(("\\<\\(TODO\\):" 1 
+				       '(:background "yellow"
+					 :foreground "black") t)))))
 
 ;=========================
 ;     WINDOW MOVEMENT     
