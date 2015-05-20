@@ -26,6 +26,7 @@
 ;     MISC CONFIG     
 ;=====================
 
+(setq backup-directory-alist '(("." . "~/.saves")))
 (column-number-mode 1)
 (show-paren-mode 1)
 (blink-cursor-mode 0)
