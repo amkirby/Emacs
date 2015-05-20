@@ -21,7 +21,6 @@
 (global-set-key (kbd "C-c C-g") 'goto-line)
 (global-set-key [f7] 'shell)
 (global-set-key (kbd "C-c x") 'compile)
-;(lookup-key (current-global-map) (kbd "C-c x")) ;;create compile shorcut
 
 ;=====================
 ;     MISC CONFIG     
@@ -39,10 +38,7 @@
   (set-background-color "gray13")
   (set-foreground-color "white")
 )
-;; set default major mode to text mode instead of Fundamental
-(setq-default major-mode 'text-mode)
-(add-hook 'text-mode-hook 'turn-on-auto-fill)
-;; (add-hook 'text-mode-hook 'flyspell-mode)
+
 (setq auto-mode-alist ;;make .h files defalut to c++ mode
       (cons '("\\.h\\'" . c++-mode) auto-mode-alist)) 
 
@@ -50,11 +46,33 @@
 ;     SPECIFIC MODES     
 ;========================
 
-;; org mode
+;; MY KEYS MODE
+(defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
+(define-key my-keys-minor-mode-map (kbd "C-c C-r") 'align-regexp)
+(define-key my-keys-minor-mode-map (kbd "M-;") 'comment-dwim)
+(define-minor-mode my-keys-minor-mode
+  "A minor mode so that my key settings override annoying major modes."
+  t " my-keys" 'my-keys-minor-mode-map)
+(my-keys-minor-mode 1)
+
+;; TEXT MODE
+;; set default major mode to text mode instead of Fundamental
+(setq-default major-mode 'text-mode)
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
+
+;; ORG MODE
 (add-hook 'org-mode-hook
 	  (lambda() (local-set-key (kbd "C-c a") 'org-agenda)))
 
-;; octave mode
+(setq org-log-done t)
+(setq org-tag-alist '((:startgroup . nil)
+		      ("@SCHOOL" . ?s) ("@HOME" . ?h)
+		      (:endgroup . nil)
+		      ("COMPUTER" . ?c) ("READ" . ?r)))
+(setq org-use-fast-todo-selection t)
+(setq org-tags-column -70)
+
+;; OCTAVE MODE
 (autoload 'octave-mode "octave-mod" nil t)
 (setq auto-mode-alist
       (cons '("\\.m$" . octave-mode) auto-mode-alist))
@@ -66,12 +84,12 @@
             (if (eq window-system 'x)
                 (font-lock-mode 1))))
 
-;; lua mode
+;; LUA MODE
 (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
     (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
     (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 
-;; php-mode
+;; PHP-MODE
 ;; syntax highlighting for php code
 (global-font-lock-mode 1)
 (require 'php-mode)
@@ -114,30 +132,10 @@
 
 ;; set meta-arrows to move between buffers
 (require 'windmove)
-(windmove-default-keybindings 'meta)
-(defvar real-keyboard-keys
-  '(("<M-up>"    ."\M-[1;3A")
-    ("<M-down>"  ."\M-[1;3B")
-    ("<M-right>" ."\M-[1;3C")
-    ("<M-left>"  ."\M-[1;3D"))
-  "An assoc list of pretty key strings and their term equiv.")
-
-(defun key (desc)
-  (or (and window-system (read-kbd-macro desc))
-      (or (cdr ( assoc desc real-keyboard-keys))
-	  (read-kbd-macro desc))))
-
-(global-set-key (key "<M-left>") 'windmove-left)
-(global-set-key (key "<M-right>") 'windmove-right)
-(global-set-key (key "<M-up>") 'windmove-up)
-(global-set-key (key "<M-down>") 'windmove-down)
-
-;; add fill column indicator
-;; (require 'fill-column-indicator)
-;; (add-hook 'after-change-major-mode-hook 'fci-mode)
-
-
-
+(global-set-key (kbd "C-c h") 'windmove-left)
+(global-set-key (kbd "C-c l") 'windmove-right)
+(global-set-key (kbd "C-c k") 'windmove-up)
+(global-set-key (kbd "C-c j") 'windmove-down)
 
 ;===================
 ;     FUNCTIONS     
