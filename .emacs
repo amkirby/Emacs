@@ -43,6 +43,16 @@
 (setq auto-mode-alist ;;make .h files defalut to c++ mode
       (cons '("\\.h\\'" . c++-mode) auto-mode-alist)) 
 
+;; MELPA
+(require 'package)
+(add-to-list 'package-archives
+	     '("melpa" . "http://melpa.org/packages/") t)
+
+;; MAGIT
+(add-to-list 'load-path "~/.emacs.d/site-lisp/magit")
+(require 'magit)
+(setq magit-last-seen-setup-instructions "1.4.0")
+
 ;========================
 ;     SPECIFIC MODES     
 ;========================
@@ -72,6 +82,10 @@
 		      ("COMPUTER" . ?c) ("READ" . ?r)))
 (setq org-use-fast-todo-selection t)
 (setq org-tags-column -70)
+
+;; ORG TODO SEQUENCE
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "IN PROGRESS(p!)" "|" "DONE(d!)")))
 
 ;; OCTAVE MODE
 (autoload 'octave-mode "octave-mod" nil t)
