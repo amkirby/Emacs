@@ -44,14 +44,14 @@
       (cons '("\\.h\\'" . c++-mode) auto-mode-alist)) 
 
 ;; MELPA
-(require 'package)
-(add-to-list 'package-archives
-	     '("melpa" . "http://melpa.org/packages/") t)
+;; (require 'package)
+;; (add-to-list 'package-archives
+;; 	     '("melpa" . "http://melpa.org/packages/") t)
 
-;; MAGIT
-(add-to-list 'load-path "~/.emacs.d/site-lisp/magit")
-(require 'magit)
-(setq magit-last-seen-setup-instructions "1.4.0")
+;; ;; MAGIT
+;; (add-to-list 'load-path "~/.emacs.d/site-lisp/magit")
+;; (require 'magit)
+;; (setq magit-last-seen-setup-instructions "1.4.0")
 
 ;========================
 ;     SPECIFIC MODES     
