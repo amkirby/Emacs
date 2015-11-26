@@ -10,7 +10,7 @@
 
 ;; Leaving this comment so that users can know how to use the .emacs.d
 ;; directory.
-(add-to-list 'load-path "~/.emacs.d")
+(add-to-list 'load-path "~/.emacs.d/lisp")
 
 ;===========================
 ;     MISC KEY BINDINGS     
