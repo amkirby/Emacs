@@ -10,7 +10,7 @@
 
 ;; Leaving this comment so that users can know how to use the .emacs.d
 ;; directory.
-;;(add-to-list 'load-path "~/.emacs.d")
+(add-to-list 'load-path "~/.emacs.d")
 
 ;===========================
 ;     MISC KEY BINDINGS     
@@ -65,6 +65,10 @@
   "A minor mode so that my key settings override annoying major modes."
   t " my-keys" 'my-keys-minor-mode-map)
 (my-keys-minor-mode 1)
+
+;; IDO MODE
+(require 'ido)
+(ido-mode t)
 
 ;; TEXT MODE
 ;; set default major mode to text mode instead of Fundamental
