@@ -43,6 +43,9 @@
 (setq auto-mode-alist ;;make .h files defalut to c++ mode
       (cons '("\\.h\\'" . c++-mode) auto-mode-alist)) 
 
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+
 ;; MELPA
 ;; (require 'package)
 ;; (add-to-list 'package-archives
