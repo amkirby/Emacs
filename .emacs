@@ -1,12 +1,21 @@
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#ad7fa8" "#8cc4ff" "#eeeeec"])
+ '(ansi-color-names-vector
+   ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#ad7fa8" "#8cc4ff" "#eeeeec"])
  '(custom-enabled-themes nil)
  '(font-use-system-font t)
- '(inhibit-startup-screen t))
+ '(inhibit-startup-screen t)
+ '(package-selected-packages (quote (magit))))
 
 ;; Leaving this comment so that users can know how to use the .emacs.d
 ;; directory.
@@ -30,9 +39,9 @@
 (column-number-mode 1)
 (show-paren-mode 1)
 (blink-cursor-mode 0)
-(scroll-bar-mode 0)
+(scroll-bar-mode 1)
 (tool-bar-mode 0)
-(menu-bar-mode 0)
+(menu-bar-mode 1)
 ;; Settings for the Emacs GUI
 (when window-system
   (set-cursor-color "green")
@@ -47,11 +56,12 @@
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 
 ;; MELPA
-;; (require 'package)
-;; (add-to-list 'package-archives
-;; 	     '("melpa" . "http://melpa.org/packages/") t)
-
-;; ;; MAGIT
+(require 'package)
+(add-to-list 'package-archives
+	     '("melpa" . "http://melpa.org/packages/") t)
+global-magit-file-mode
+(require 'git-commit)
+;; MAGIT
 ;; (add-to-list 'load-path "~/.emacs.d/site-lisp/magit")
 ;; (require 'magit)
 ;; (setq magit-last-seen-setup-instructions "1.4.0")
@@ -95,30 +105,30 @@
       '((sequence "TODO(t)" "IN PROGRESS(p!)" "|" "DONE(d!)")))
 
 ;; OCTAVE MODE
-(autoload 'octave-mode "octave-mod" nil t)
-(setq auto-mode-alist
-      (cons '("\\.m$" . octave-mode) auto-mode-alist))
+;; (autoload 'octave-mode "octave-mod" nil t)
+;; (setq auto-mode-alist
+;;       (cons '("\\.m$" . octave-mode) auto-mode-alist))
 
-(add-hook 'octave-mode-hook
-          (lambda ()
-            (abbrev-mode 1)
-            (auto-fill-mode 1)
-            (if (eq window-system 'x)
-                (font-lock-mode 1))))
+;; (add-hook 'octave-mode-hook
+;;           (lambda ()
+;;             (abbrev-mode 1)
+;;             (auto-fill-mode 1)
+;;             (if (eq window-system 'x)
+;;                 (font-lock-mode 1))))
 
 ;; LUA MODE
-(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
-    (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
-    (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
+;; (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
+;;     (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
+;;     (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 
 ;; PHP-MODE
 ;; syntax highlighting for php code
-(global-font-lock-mode 1)
-(require 'php-mode)
-(setq auto-mode-alist
-  (append '(("\.php$" . php-mode)
-            ("\.module$" . php-mode))
-              auto-mode-alist))
+;; (global-font-lock-mode 1)
+;; (require 'php-mode)
+;; (setq auto-mode-alist
+;;   (append '(("\.php$" . php-mode)
+;;             ("\.module$" . php-mode))
+;;               auto-mode-alist))
 
 ;; Set TODO to be yellow in programming languages
 
