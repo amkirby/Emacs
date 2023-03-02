@@ -12,10 +12,13 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector
    ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#ad7fa8" "#8cc4ff" "#eeeeec"])
- '(custom-enabled-themes nil)
+ '(custom-enabled-themes '(dracula))
+ '(custom-safe-themes
+   '("05626f77b0c8c197c7e4a31d9783c4ec6e351d9624aa28bc15e7f6d6a6ebd926" default))
  '(font-use-system-font t)
  '(inhibit-startup-screen t)
- '(package-selected-packages (quote (magit))))
+ '(ispell-dictionary nil)
+ '(package-selected-packages '(vterm dracula-theme magit)))
 
 ;; Leaving this comment so that users can know how to use the .emacs.d
 ;; directory.
@@ -43,11 +46,11 @@
 (tool-bar-mode 0)
 (menu-bar-mode 1)
 ;; Settings for the Emacs GUI
-(when window-system
-  (set-cursor-color "green")
-  (set-background-color "gray13")
-  (set-foreground-color "white")
-)
+;; (when window-system
+;;   (set-cursor-color "green")
+;;   (set-background-color "gray13")
+;;   (set-foreground-color "white")
+;; )
 
 (setq auto-mode-alist ;;make .h files defalut to c++ mode
       (cons '("\\.h\\'" . c++-mode) auto-mode-alist)) 
